@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+<!--    扫描被@Service标注的对象-->
+<context:component-scan base-package="Service"/>
+<!--   ======================================有关数据源及数据库的操作====================================================================================-->
+<!--spring方式访问数据库-->
+    <context:property-placeholder location="classpath:db.properties"/>
+<!--    dao层需要用的mybatis工具，在此统一配置-->
+    <bean id="myDS" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${java_ssm_study.driver}"/>
+        <property name="url" value="${java_ssm_study.url}"/>
+        <property name="username" value="${java_ssm_study.username}"/>
+        <property name="password" value="${java_ssm_study.password}"/>
+    </bean>
+<!--    事务的保障配置-->
+<bean id="myTM" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+<!--    保障谁-->
+    <property name="dataSource" ref="myDS"/>
+ </bean>
+<!--    事务启动-->
+    <tx:annotation-driven transaction-manager="myTM"/>
+
+    <!--   ======================================有关数据源及数据库配置的操作====================================================================================-->
+
+    <!--   ======================================数据库操作===（创sqlsessionfactory）=================================================================================-->
+<bean  id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <property name="dataSource" ref="myDS"/>
+    <property name="configLocation" value="classpath:mybatis-config.xml"/>
+</bean>
+    <!--   ======================================数据库操作===（创sqlsessionfactory）========================================================================-->
+
+    <!--   ======================================bean的装配================================================================================-->
+<!--    传统dao开发需要继承父类:SqlSessionDaoSupport,实现代码dao连接mapper.xml-->
+<!--    <bean id="bookDaoImpl" class="Dao.BookDaoImpl">-->
+<!--        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>-->
+<!--    </bean>-->
+
+
+<!--接口式编程bean装配  提供扫描工具，扫描对应的mapper完成java-mapper=》xml-mapper的映射-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+<!--         value的值  到哪个类上层的包即可-->
+        <property name="basePackage" value="mapper"></property>
+     </bean>
+  </beans>

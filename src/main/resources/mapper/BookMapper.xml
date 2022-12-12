@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--<mapper namespace="Dao.BookDao">   传统开发-->
+<mapper namespace="mapper.BookMapper">
+
+
+    <select id="findbyid" parameterType="int" resultType="domain.Book">
+        select * from tb_book where id=#{id}
+    </select>
+</mapper>

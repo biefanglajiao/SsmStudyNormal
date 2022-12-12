@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <!--        打开二级缓存全局配置-->
+        <setting name="cacheEnabled" value="true" />
+        <!--        打开延迟加载开关-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--        将积极加载改为消息加载，即按需加载-->
+        <setting name="aggressiveLazyLoading" value="false"/>
+
+
+    </settings>
+<!--    typeAliases：别名处理器，可以为java类型（resultType）起别名。类型别名是为 Java 类型设置一个短的名字。它只和 XML 配置有关，存在的意义仅在于用来减少类完全限定名的冗余。-->
+<!--    注意：在不指定别名情况下，别名默认就是类名小写。某些情况下别名不区分大小写。-->
+<typeAliases>
+<package name="domain"/>
+</typeAliases>
+
+</configuration>
